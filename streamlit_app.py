@@ -21,13 +21,13 @@ st.write(
 st.write("Feel free to choose the option that best fits your personal learning style! But be careful, RamsayGPT gets impatient if you don't answer the promps correctly :(")
 
 
-# Ask user for their OpenAI API key via `st.text_input`.
-# Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
-# via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
+# Ask user for their OpenAI API key via st.text_input.
+# Alternatively, you can store the API key in ./.streamlit/secrets.toml and access it
+# via st.secrets, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
 openai_api_key = st.text_input("OpenAI API Key", type="password")
 if not openai_api_key:
     st.info("Please add your OpenAI API key to continue.", icon="🗝️")
-else:  # Create an OpenAI client.
+else:   # Create an OpenAI client.
     client = OpenAI(api_key=openai_api_key)
 
     # Initialize chat log with the initial context and greeting
@@ -40,7 +40,7 @@ else:  # Create an OpenAI client.
         st.session_state.chat_log.append({'role': 'assistant', 'content': initial_greeting})
         st.session_state.messages.append({'role': 'assistant', 'content': initial_greeting})
 
-    # Display the existing chat messages via `st.chat_message`.
+    # Display the existing chat messages via st.chat_message.
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
@@ -55,20 +55,14 @@ else:  # Create an OpenAI client.
         with st.chat_message("user"):
             st.markdown(prompt)
 
-        # Check if the user has chosen a topic.
-        if "topic" not in st.session_state:
-            st.session_state.topic = prompt  # Assuming the first prompt is the topic selection.
-            st.session_state.messages.append({"role": "assistant", "content": f"You have chosen to learn about {st.session_state.topic}. Now, how would you like to learn about it?"})
-            st.session_state.chat_log.append({"role": "assistant", "content": f"You have chosen to learn about {st.session_state.topic}. Now, how would you like to learn about it?"})
-        else:
-            # Generate a response using the OpenAI API.
-            stream = client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=st.session_state.chat_log,
-                stream=True,
-            )
+        # Generate a response using the OpenAI API.
+        stream = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=st.session_state.chat_log,
+            stream=True,
+        )
 
-            with st.chat_message("assistant"):
-                response = st.write_stream(stream)
-            st.session_state.chat_log.append({"role": "assistant", "content": response})
-            st.session_state.messages.append({"role": "assistant", "content": response})
+        with st.chat_message("assistant"):
+            response = st.write_stream(stream)
+        st.session_state.chat_log.append({"role": "assistant", "content": response})
+        st.session_state.messages.append({"role": "assistant", "content": response}) 
