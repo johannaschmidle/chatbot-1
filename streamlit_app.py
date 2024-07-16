@@ -18,7 +18,7 @@ st.write(
 st.write(
     "1. **Variation**, where RamsayGPT will give you different variations of the topic which will help you study the differences between them \n 2. **Game**, where RamsayGPT will create a game to help you learn the topic  \n 3. **Explain**, where RamsayGPT will give an explanation of the topic"
 )
-st.write("Feel free to choose the option that best fits your personal learning style! But be careful, RamsayGPT gets impatient if you don't answer the promps correctly :(")
+st.write("Feel free to choose the option that best fits your personal learning style! But be careful, RamsayGPT gets impatient if you don't answer the prompts correctly :(")
 
 
 # Ask user for their OpenAI API key via st.text_input.
